@@ -10,7 +10,7 @@ services:
 
   node_cash_transfer_app:
     container_name: node_cash_transfer_app
-    build: ./back-end/
+    build: ./back_end/
     ports:
       - 5000:5000
     depends_on:
