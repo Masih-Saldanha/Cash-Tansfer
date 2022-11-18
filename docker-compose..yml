@@ -1,0 +1,43 @@
+services:
+  postgres_cash_transfer_db:
+    image: postgres
+    container_name: postgres_cash_transfer_db
+    restart: always
+    ports:
+      - 4457:5432
+    env_file:
+      - ./back-end/.env.docker
+    volumes:
+      - pg_cash_transfer_db:/var/lib/postgresql/data
+
+  node_cash_transfer_app:
+    container_name: node_cash_transfer_app
+    build: ./back-end
+    ports:
+      - 5000:5000
+    depends_on:
+      - postgres_cash_transfer_db
+    env_file:
+      - ./back-end/.env.docker
+
+  react_cash_transfer_app:
+    container_name: react_cash_transfer_app
+    build: ./front-end
+    volumes:
+      - build_react:/var/www/html
+
+  nginx_cash_transfer_app:
+    container_name: nginx_cash_transfer_app
+    build: ./nginx
+    ports:
+      - 80:80
+    volumes:
+      - build_react:/var/www/html
+    depends_on:
+      - postgres_cash_transfer_db
+      - node_cash_transfer_app
+      - react_cash_transfer_app
+
+volumes:
+  pg_cash_transfer_db:
+  build_react:
