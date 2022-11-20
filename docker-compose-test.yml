@@ -4,16 +4,17 @@ services:
     container_name: postgres_cash_transfer_db_test
     restart: always
     ports:
-      - 5544:5432
+      - 4457:5432
     env_file:
-      - .env.docker.test
+      - back_end/.env.test
 
-  node_cash_transfer_app:
-    container_name: node_cash_transfer_app
+  node_cash_transfer_app_test:
+    container_name: node_cash_transfer_app_test
     build: ./back_end/
+    image: node_cash_transfer_app_test_image
     ports:
       - 5000:5000
     depends_on:
       - postgres_cash_transfer_db_test
     env_file:
-      - .env.docker.test
+      - back_end/.env.test

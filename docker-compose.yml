@@ -6,31 +6,34 @@ services:
     ports:
       - 4457:5432
     env_file:
-      - ./back_end/.env.docker
+      - back_end/.env
     volumes:
       - pg_cash_transfer_db:/var/lib/postgresql/data
 
   node_cash_transfer_app:
     container_name: node_cash_transfer_app
     build: ./back_end
+    image: node_cash_transfer_app_image
     ports:
       - 5000:5000
     depends_on:
       - postgres_cash_transfer_db
     env_file:
-      - ./back_end/.env.docker
+      - back_end/.env
 
   react_cash_transfer_app:
     container_name: react_cash_transfer_app
     build: ./front_end
+    image: react_cash_transfer_app_image
     volumes:
       - build_react:/var/www/html
 
   nginx_cash_transfer_app:
     container_name: nginx_cash_transfer_app
     build: ./nginx
+    image: nginx_cash_transfer_app_image
     ports:
-      - 80:80
+      - 8080:80
     volumes:
       - build_react:/var/www/html
     depends_on:
