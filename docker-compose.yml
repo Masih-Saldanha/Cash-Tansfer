@@ -33,7 +33,7 @@ services:
     build: ./nginx
     image: nginx_cash_transfer_app_image
     ports:
-      - 8080:80
+      - 80:80
     volumes:
       - build_react:/var/www/html
     depends_on:
