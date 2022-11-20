@@ -22,4 +22,4 @@ jobs:
           envkey_DATABASE_URL: "postgresql://postgres:postgres@postgres_cash_transfer_db_test:5432/cash_transfer_db_test?schema=public"
           file_name: .env.test
       - name: Run Tests
-        run: docker-compose -f docker-compose-tests.yml run node_cash_transfer_app_test npm run test
+        run: docker compose -f docker-compose-tests.yml run node_cash_transfer_app_test npm run test
