@@ -16,8 +16,10 @@ jobs:
         with:
           envkey_POSTGRES_USER: "postgres"
           envkey_POSTGRES_PASSWORD: "postgres"
-          envkey_POSTGRES_DB: "students_test"
-          envkey_DATABASE_URL: "postgresql://postgres:postgres@postgres_sorteador_db_test:5432/students_test"
-          file_name: ".env.docker.test"
+          envkey_POSTGRES_HOST: "postgres_cash_transfer_db_test"
+          envkey_POSTGRES_PORT: 5432
+          envkey_POSTGRES_DB: "cash_transfer_db_test"
+          envkey_DATABASE_URL: "postgresql://postgres:postgres@postgres_cash_transfer_db_test:5432/cash_transfer_db_test?schema=public"
+          file_name: .env.test
       - name: Run Tests
-        run: docker-compose -f docker-compose-tests.yml run node_sorteador_app npm run test:merge
+        run: docker-compose -f docker-compose-tests.yml run node_cash_transfer_app_test npm run test
