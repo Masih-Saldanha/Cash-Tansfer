@@ -11,38 +11,34 @@ datasource db {
   shadowDatabaseUrl = env("DATABASE_URL")
 }
 
-// model relation example:
+model Users {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  accountId Int      @unique
+  accounts  Accounts @relation(fields: [accountId], references: [id])
 
-// model Users {
-//   id       Int     @id @default(autoincrement())
-//   email    String  @unique
-//   password String
-//   cards    Cards[]
+  @@map("users")
+}
 
-//   @@map("users")
-// }
+model Accounts {
+  id                   Int            @id @default(autoincrement())
+  balance              Int            @default(10000)
+  users                Users?
+  debitedTransactions  Transactions[] @relation("debitedAccounts")
+  creditedTransactions Transactions[] @relation("creditedAccounts")
 
-// model Cards {
-//   id             Int     @id @default(autoincrement())
-//   title          String
-//   number         String
-//   name           String
-//   securityCode   String
-//   expirationDate String
-//   password       String
-//   isVirtual      Boolean
-//   type           Card
-//   userId         Int
-//   users          Users   @relation(fields: [userId], references: [id])
+  @@map("accounts")
+}
 
-//   @@unique([userId, title])
-//   @@map("cards")
-// }
+model Transactions {
+  id                Int      @id @default(autoincrement())
+  debitedAccountId  Int
+  debitedAccounts   Accounts @relation("debitedAccounts", fields: [debitedAccountId], references: [id])
+  creditedAccountId Int
+  creditedAccounts  Accounts @relation("creditedAccounts", fields: [creditedAccountId], references: [id])
+  value             Int
+  createdAt         DateTime @default(now())
 
-// enum example:
-
-// enum Card {
-//   credit
-//   debit
-//   both
-// }
+  @@map("transactions")
+}
