@@ -6,8 +6,10 @@ import { throwError } from "../utils/errorTypeUtils.js";
 
 export interface TokenData {
     id: number,
-    email: string,
-    iat: number
+    username: string,
+    accountId: number,
+    balance: number,
+    iat: number,
 };
 
 export async function validateToken(req: Request, res: Response, next: NextFunction) {

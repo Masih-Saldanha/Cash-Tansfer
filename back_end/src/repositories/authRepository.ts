@@ -6,24 +6,20 @@ export type UserData = Omit<Users, "id" | "accountId">;
 export type AccountData = Omit<Accounts, "id">;
 
 async function findUserByUsername(username: string) {
-    return await prisma.users.findUnique({ where: { username } });
+    return await prisma.users.findUnique({
+        where: { username },
+        select: { id: true, username: true, password: true, accountId: false, accounts: true }
+    });
 };
-
-// async function registerAccount() {
-//     return await prisma.accounts.create({ data: {} });
-// };
 
 async function registerUser(username: string, password: string) {
     await prisma.$transaction([
         prisma.users.create({ data: { username, password, accountId: (await prisma.accounts.create({ data: {} })).id } }),
     ]);
-
-    // await prisma.users.create({ data: { username, password, accountId } });
 };
 
 const authRepository = {
     findUserByUsername,
-    // registerAccount,
     registerUser,
 };
 

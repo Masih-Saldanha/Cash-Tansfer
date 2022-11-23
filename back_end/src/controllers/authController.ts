@@ -6,13 +6,22 @@ import authService from "../services/authService.js";
 async function signUp(req: Request, res: Response) {
     const userData: UserData = req.body
 
-    await authService.registerUser(userData);
+    await authService.signUp(userData);
 
     res.sendStatus(201);
 };
 
+async function signIn(req: Request, res: Response) {
+    const userData: UserData = req.body;
+
+    const token = await authService.signIn(userData);
+
+    res.status(201).send(token);
+};
+
 const authController = {
     signUp,
+    signIn,
 };
 
 export default authController;
