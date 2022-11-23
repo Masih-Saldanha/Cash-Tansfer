@@ -10,6 +10,7 @@ export interface TokenData {
     accountId: number,
     balance: number,
     iat: number,
+    exp: number,
 };
 
 export async function validateToken(req: Request, res: Response, next: NextFunction) {
