@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+import authHook from "../hooks/authHook";
 import authService from "../services/authService";
 
 export default function Signup() {
+  const { token } = authHook();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) {
+      navigate("/main/");
+    }
+  }, []);
+
   const [userData, setUserData] = useState({
     username: "",
     password: "",
@@ -19,13 +28,18 @@ export default function Signup() {
   function handleSubmit(e) {
     const passwordRegex = /^(?=.*[1-9])(?=.*[A-Z])/;
     if (userData.username.length < 3) {
-        alert("Short username, it needs to have at least 3 characters!");
-        return;
-    };
-    if (!passwordRegex.test(userData.password) || userData.password.length < 8) {
-        alert("password fails to meet minimum requirements, it needs to have at least 8 characters, 1 capital letter and 1 number");
-        return;
-    };
+      alert("Short username, it needs to have at least 3 characters!");
+      return;
+    }
+    if (
+      !passwordRegex.test(userData.password) ||
+      userData.password.length < 8
+    ) {
+      alert(
+        "password fails to meet minimum requirements, it needs to have at least 8 characters, 1 capital letter and 1 number"
+      );
+      return;
+    }
     e.preventDefault();
     setLoading(true);
     let metaUserData = { ...userData };
@@ -99,7 +113,7 @@ const Container = styled.section`
     align-items: center;
     justify-content: center;
     margin-top: -10px;
-    margin-bottom: 13px;
+    margin-bottom: 23px;
   }
   input {
     width: 80%;
@@ -114,8 +128,9 @@ const Container = styled.section`
     color: #9f9f9f;
     padding-left: 10px;
     ::placeholder {
-        font-size: 14px;
+      font-size: 14px;
     }
+    margin-top: 13px;
     margin-left: 13px;
   }
   button {
