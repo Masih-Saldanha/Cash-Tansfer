@@ -10,5 +10,6 @@ const transactionRouter = Router();
 transactionRouter.use(validateToken);
 transactionRouter.get("/balance/", transactionController.checkBalance);
 transactionRouter.post("/transfer/", validateSchema(transactionSchema.transaction), transactionController.cashTransfer);
+transactionRouter.get("/history/", transactionController.checkHistory);
 
 export default transactionRouter;

@@ -16,9 +16,6 @@ async function findUserByUsername(username: string) {
 };
 
 async function cashTransfer(creditedAccountId: number, creditedOriginalBalance: number, debitedAccountId: number, debitedOriginalBalance: number, value: number) {
-    // 1 - TIRA DINHEIRO DA ORIGEM
-    // 2 - PÔE DINHEIRO NO DESTINO
-    // 3 - REGISTRA
     await prisma.$transaction([
         prisma.accounts.update({ where: { id: creditedAccountId }, data: { balance: creditedOriginalBalance - value } }),
         prisma.accounts.update({ where: { id: debitedAccountId }, data: { balance: debitedOriginalBalance + value } }),
@@ -26,10 +23,65 @@ async function cashTransfer(creditedAccountId: number, creditedOriginalBalance: 
     ]);
 };
 
+async function checkHistory(accountId: number) {
+    // return await prisma.transactions.findMany({ where: { creditedAccountId: accountId } });
+    return await prisma.$transaction([
+        prisma.transactions.findMany({
+            where: { creditedAccountId: accountId },
+            select: {
+                id: true,
+                debitedAccountId: true,
+                creditedAccountId: true,
+                value: true,
+                createdAt: true,
+                debitedAccounts: {
+                    select: {
+                        id: false,
+                        balance: false,
+                        users: {
+                            select: {
+                                id: false,
+                                username: true,
+                                password: false,
+                                accountId: false,
+                            }
+                        }
+                    }
+                }
+            },
+        }),
+        prisma.transactions.findMany({
+            where: { debitedAccountId: accountId },
+            select: {
+                id: true,
+                debitedAccountId: true,
+                creditedAccountId: true,
+                value: true,
+                createdAt: true,
+                creditedAccounts: {
+                    select: {
+                        id: false,
+                        balance: false,
+                        users: {
+                            select: {
+                                id: false,
+                                username: true,
+                                password: false,
+                                accountId: false,
+                            }
+                        }
+                    }
+                }
+            },
+        }),
+    ]);
+};
+
 const transactionRepository = {
     checkBalance,
     findUserByUsername,
     cashTransfer,
+    checkHistory,
 };
 
 export default transactionRepository;

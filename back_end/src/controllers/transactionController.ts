@@ -21,9 +21,18 @@ async function cashTransfer(req: Request, res: Response) {
     res.sendStatus(200);
 };
 
+async function checkHistory(req: Request, res: Response) {
+    const tokenData: TokenData = res.locals.userDataFromToken;
+
+    const history = await transactionService.checkHistory(tokenData.accountId);
+
+    res.status(200).send(history);
+};
+
 const transactionController = {
     checkBalance,
     cashTransfer,
+    checkHistory,
 };
 
 export default transactionController;
