@@ -23,58 +23,67 @@ async function cashTransfer(creditedAccountId: number, creditedOriginalBalance: 
     ]);
 };
 
-async function checkHistory(accountId: number) {
-    // return await prisma.transactions.findMany({ where: { creditedAccountId: accountId } });
-    return await prisma.$transaction([
-        prisma.transactions.findMany({
-            where: { creditedAccountId: accountId },
-            select: {
-                id: true,
-                debitedAccountId: true,
-                creditedAccountId: true,
-                value: true,
-                createdAt: true,
-                debitedAccounts: {
-                    select: {
-                        id: false,
-                        balance: false,
-                        users: {
-                            select: {
-                                id: false,
-                                username: true,
-                                password: false,
-                                accountId: false,
-                            }
-                        }
-                    }
-                }
+async function checkHistory(accountId: number, onlyCredited?: string, onlyDebited?: string, dateOrdered?: string) {
+    let orderBy = {};
+    if (dateOrdered) orderBy = { createdAt: "desc" };
+
+    let where = {};
+    if (!onlyCredited && !onlyDebited) {
+        where = {
+            OR: [
+                { creditedAccountId: accountId },
+                { debitedAccountId: accountId },
+            ],
+        };
+    } else if (onlyCredited && !onlyDebited) {
+        where = {
+            creditedAccountId: accountId,
+        };
+    } else if (!onlyCredited && onlyDebited) {
+        where = {
+            debitedAccountId: accountId,
+        };
+    };
+
+    return await prisma.transactions.findMany({
+        orderBy,
+        where,
+        select: {
+            id: true,
+            debitedAccountId: true,
+            creditedAccountId: true,
+            value: true,
+            createdAt: true,
+            creditedAccounts: {
+                select: {
+                    id: false,
+                    balance: false,
+                    users: {
+                        select: {
+                            id: false,
+                            username: true,
+                            password: false,
+                            accountId: false,
+                        },
+                    },
+                },
             },
-        }),
-        prisma.transactions.findMany({
-            where: { debitedAccountId: accountId },
-            select: {
-                id: true,
-                debitedAccountId: true,
-                creditedAccountId: true,
-                value: true,
-                createdAt: true,
-                creditedAccounts: {
-                    select: {
-                        id: false,
-                        balance: false,
-                        users: {
-                            select: {
-                                id: false,
-                                username: true,
-                                password: false,
-                                accountId: false,
-                            }
-                        }
-                    }
-                }
+            debitedAccounts: {
+                select: {
+                    id: false,
+                    balance: false,
+                    users: {
+                        select: {
+                            id: false,
+                            username: true,
+                            password: false,
+                            accountId: false,
+                        },
+                    },
+                },
             },
-        }),
-    ]);
+        },
+    });
 };
 
 const transactionRepository = {

@@ -24,8 +24,12 @@ async function cashTransfer(creditedAccount: TokenData, transferData: TransferDa
     await transactionRepository.cashTransfer(creditedAccount.accountId, creditedAccount.balance, debitedAccount.accounts.id, debitedAccount.accounts.balance, transferData.amount);
 };
 
-async function checkHistory(accountId: number) {
-    return await transactionRepository.checkHistory(accountId);
+async function checkHistory(accountId: number, onlyCredited?: string, onlyDebited?: string, dateOrdered?: string) {
+    throwError(!!onlyCredited && !!onlyDebited, "Not Acceptable", `You can't select 'Only Credited' and 'Only Debited' at the same time, only one or no one`);
+
+    const history = await transactionRepository.checkHistory(accountId, onlyCredited, onlyDebited, dateOrdered);
+
+    return history;
 };
 
 const transactionService = {

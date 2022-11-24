@@ -22,9 +22,12 @@ async function cashTransfer(req: Request, res: Response) {
 };
 
 async function checkHistory(req: Request, res: Response) {
+    const onlyCredited = String(req.query.onlyCredited);
+    const onlyDebited = String(req.query.onlyDebited);
+    const dateOrdered = String(req.query.dateOrdered);
     const tokenData: TokenData = res.locals.userDataFromToken;
 
-    const history = await transactionService.checkHistory(tokenData.accountId);
+    const history = await transactionService.checkHistory(tokenData.accountId, onlyCredited, onlyDebited, dateOrdered);
 
     res.status(200).send(history);
 };
