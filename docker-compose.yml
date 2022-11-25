@@ -27,6 +27,7 @@ services:
     image: react_cash_transfer_app_image
     ports:
       - 3000:3000
+    stdin_open: true
     env_file:
       - front_end/.env
     volumes:
