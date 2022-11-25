@@ -26,6 +26,8 @@ export default function Signup() {
   }
 
   function handleSubmit(e) {
+    e.preventDefault();
+
     const passwordRegex = /^(?=.*[1-9])(?=.*[A-Z])/;
     if (userData.username.length < 3) {
       alert("Short username, it needs to have at least 3 characters!");
@@ -40,9 +42,11 @@ export default function Signup() {
       );
       return;
     }
-    e.preventDefault();
+
     setLoading(true);
-    let metaUserData = { ...userData };
+
+    const metaUserData = { ...userData };
+    
     authService
       .signUp(metaUserData)
       .then((response) => {
