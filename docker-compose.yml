@@ -25,6 +25,10 @@ services:
     container_name: react_cash_transfer_app
     build: ./front_end
     image: react_cash_transfer_app_image
+    ports:
+      - 3000:3000
+    env_file:
+      - front_end/.env
     volumes:
       - build_react:/var/www/html
 

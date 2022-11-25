@@ -14,4 +14,6 @@ RUN mv build/* /var/www/html
 
 WORKDIR /
 
+EXPOSE 3000
+
 RUN rm -rf /app
