@@ -26,15 +26,15 @@ async function signIn(userData: UserData) {
         accountId: userExist.accounts.id,
         balance: userExist.accounts.balance,
     };
-    const secretKey = process.env.JWT_TOKEN;
+    // const secretKey = process.env.JWT_TOKEN;
     const SECONDS = 60;
     const MINUTES = 60;
     const HOURS = 24;
     const DAYS = 1;
     const config = { expiresIn: SECONDS * MINUTES * HOURS * DAYS };
-    const token = jwt.sign(tokenData, secretKey, config);
+    const token = jwt.sign(tokenData, process.env.JWT_TOKEN, config);
 
-    console.log("secretKey: ", secretKey);
+    console.log("secretKey: ", process.env.JWT_TOKEN);
     console.log("SECONDS: ", SECONDS);
     console.log("MINUTES: ", MINUTES);
     console.log("HOURS: ", HOURS);
