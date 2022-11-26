@@ -39,7 +39,8 @@ export default function Main() {
         setBalance(response.data.balance);
       })
       .catch((e) => {
-        alert(e.response.data);
+        console.log(e);
+        alert(e);
       });
   }
 
@@ -54,7 +55,8 @@ export default function Main() {
         setHistory(response.data);
       })
       .catch((e) => {
-        alert(e.response.data);
+        console.log(e);
+        alert(e);
       });
   }
 
@@ -91,7 +93,8 @@ export default function Main() {
         updateHistory();
       })
       .catch((e) => {
-        alert(e.response.data);
+        console.log(e);
+        alert(e);
         setLoading(false);
       });
   }

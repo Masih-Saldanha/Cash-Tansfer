@@ -37,8 +37,10 @@ export default function Signin() {
         navigate("/main/");
       })
       .catch((e) => {
+        console.log(e);
+        alert(e);
         setLoading(false);
-        alert(e.response.data.error || e.response.data);
+        // alert(e.response.data.error || e.response.data);
       });
   }
 

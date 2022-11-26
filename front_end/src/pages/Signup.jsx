@@ -55,7 +55,8 @@ export default function Signup() {
         navigate("/");
       })
       .catch((e) => {
-        alert(e.response.data);
+        console.log(e);
+        alert(e);
         setLoading(false);
       });
   }
