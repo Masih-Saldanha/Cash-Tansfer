@@ -10,6 +10,7 @@ export default function Signin() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("teste");
     if (token) {
       navigate("/main/");
     }
@@ -37,7 +38,7 @@ export default function Signin() {
         navigate("/main/");
       })
       .catch((e) => {
-        console.log(e);
+        alert("Could not login into your account");
         alert(e);
         setLoading(false);
         // alert(e.response.data.error || e.response.data);

@@ -2,17 +2,19 @@ FROM node:16
 
 WORKDIR /app/
 
+RUN rm -rf /app/*
+
+COPY . .
+
 RUN mkdir -p /var/www/html
 
 RUN rm -rf /var/www/html/*
-
-COPY . .
 
 RUN npm i
 
 RUN npm run build
 
-RUN cp -fR build/* /var/www/html
+RUN cp -fR /app/build/* /var/www/html/
 
 WORKDIR /
 

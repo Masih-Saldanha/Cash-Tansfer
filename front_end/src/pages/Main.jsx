@@ -39,7 +39,7 @@ export default function Main() {
         setBalance(response.data.balance);
       })
       .catch((e) => {
-        console.log(e);
+        alert("Could not found you're Balance");
         alert(e);
       });
   }
@@ -56,7 +56,7 @@ export default function Main() {
       })
       .catch((e) => {
         console.log(e);
-        alert(e);
+        alert("Could not found you're History");
       });
   }
 
@@ -94,7 +94,7 @@ export default function Main() {
       })
       .catch((e) => {
         console.log(e);
-        alert(e);
+        alert("Could not transfer your cash");
         setLoading(false);
       });
   }

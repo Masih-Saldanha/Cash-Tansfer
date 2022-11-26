@@ -55,7 +55,7 @@ export default function Signup() {
         navigate("/");
       })
       .catch((e) => {
-        console.log(e);
+        alert("Could not register your account");
         alert(e);
         setLoading(false);
       });
