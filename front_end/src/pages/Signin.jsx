@@ -10,7 +10,6 @@ export default function Signin() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("teste");
     if (token) {
       navigate("/main/");
     }
