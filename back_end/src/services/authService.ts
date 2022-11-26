@@ -30,8 +30,19 @@ async function signIn(userData: UserData) {
     const SECONDS = 60;
     const MINUTES = 60;
     const HOURS = 24;
-    const config = { expiresIn: SECONDS * MINUTES * HOURS };
-    return jwt.sign(tokenData, secretKey, config);
+    const DAYS = 1;
+    const config = { expiresIn: SECONDS * MINUTES * HOURS * DAYS };
+    const token = jwt.sign(tokenData, secretKey, config);
+
+    console.log("secretKey: ", secretKey);
+    console.log("SECONDS: ", SECONDS);
+    console.log("MINUTES: ", MINUTES);
+    console.log("HOURS: ", HOURS);
+    console.log("DAYS: ", DAYS);
+    console.log("config: ", config);
+    console.log("token: ", token);
+
+    return token;
 };
 
 const authService = {
