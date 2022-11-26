@@ -26,6 +26,8 @@ async function signIn(userData: UserData) {
         accountId: userExist.accounts.id,
         balance: userExist.accounts.balance,
     };
+    console.log(+process.env.PORT);
+    console.log(+process.env.JWT_TOKEN);
     // const secretKey = process.env.JWT_TOKEN;
     const SECONDS = 60;
     const MINUTES = 60;
