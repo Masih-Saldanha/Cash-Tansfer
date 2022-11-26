@@ -1,7 +1,7 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 
-const site = "http://node_cash_transfer_app/api";
+const site = "http://ec2-52-90-242-30.compute-1.amazonaws.com/api";
 
 function signUp(signUpData) {
     return axios.post(`${site}/auth/signup`, signUpData);
