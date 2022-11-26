@@ -28,11 +28,16 @@ export default function Signin() {
 
   function handleSubmit(e) {
     e.preventDefault();
+
     setLoading(true);
+
+    const metaSignInData = { ...signInData };
+
     authService
-      .signIn(signInData)
+      .signIn(metaSignInData)
       .then((response) => {
         setLoading(false);
+        console.log(response.data);
         signIn(response.data);
         navigate("/main/");
       })
