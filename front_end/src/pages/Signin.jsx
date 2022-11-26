@@ -33,6 +33,8 @@ export default function Signin() {
 
     const metaSignInData = { ...signInData };
 
+    console.log(metaSignInData);
+
     authService
       .signIn(metaSignInData)
       .then((response) => {
@@ -44,6 +46,7 @@ export default function Signin() {
       .catch((e) => {
         alert("Could not login into your account");
         alert(e);
+        console.log(e);
         setLoading(false);
         // alert(e.response.data.error || e.response.data);
       });
