@@ -32,10 +32,10 @@ jobs:
           fail_on_empty: true
 
       - name: Build
-        run: docker compose build && mkdir -p ~/actions-runner/_work/Cash-Tansfer/Cash-Tansfer/html
+        run: docker compose build && mkdir -p ~ubuntu/actions-runner/_work/Cash-Tansfer/Cash-Tansfer/html
 
       - name: Run
         run: docker compose down && docker compose up -d
 
       - name: Update frontend
-        run: docker cp react_cash_transfer_app:/app/build ~/actions-runner/_work/Cash-Tansfer/Cash-Tansfer/front_end/ && cp -fR actions-runner/_work/Cash-Tansfer/Cash-Tansfer/front_end/build/* actions-runner/_work/Cash-Tansfer/Cash-Tansfer/html/ && docker cp actions-runner/_work/Cash-Tansfer/Cash-Tansfer/html/ react_cash_transfer_app:/var/www
+        run: docker cp react_cash_transfer_app:/app/build ~ubuntu/actions-runner/_work/Cash-Tansfer/Cash-Tansfer/front_end/ && cp -fR ~ubuntu/actions-runner/_work/Cash-Tansfer/Cash-Tansfer/front_end/build/* ~ubuntu/actions-runner/_work/Cash-Tansfer/Cash-Tansfer/html/ && docker cp ~ubuntu/actions-runner/_work/Cash-Tansfer/Cash-Tansfer/html/ react_cash_transfer_app:/var/www
