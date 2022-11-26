@@ -12,10 +12,10 @@ RUN npm i
 
 RUN npm run build
 
-RUN mv build/* /var/www/html
+RUN cp -fR build/* /var/www/html
 
 WORKDIR /
 
-RUN rm -rf /app
+# RUN rm -rf /app
 
 EXPOSE 3000
