@@ -16,8 +16,6 @@ async function signIn(req: Request, res: Response) {
 
     const token = await authService.signIn(userData);
 
-    console.log("Controler Final Token: ", token);
-
     res.status(200).send(token);
 };
 

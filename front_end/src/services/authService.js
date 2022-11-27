@@ -1,8 +1,8 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 
-const site = "http://ec2-52-90-242-30.compute-1.amazonaws.com/api";
-// const site = process.env.REACT_APP_BASE_URL;
+// const site = "http://ec2-52-90-242-30.compute-1.amazonaws.com/api";
+const site = process.env.REACT_APP_BASE_URL;
 
 function signUp(signUpData) {
     return axios.post(`${site}/auth/signup`, signUpData);
