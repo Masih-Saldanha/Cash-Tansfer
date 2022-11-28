@@ -35,10 +35,6 @@ export default function Main() {
 
     updateBalance();
     updateHistory();
-  }, []);
-
-  useEffect(() => {
-    updateHistory();
   }, [onlyCredited, onlyDebited, dateOrdered]);
 
   const config = {
