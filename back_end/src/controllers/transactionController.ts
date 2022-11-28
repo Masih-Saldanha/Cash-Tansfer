@@ -14,7 +14,7 @@ async function checkBalance(req: Request, res: Response) {
 
 async function cashTransfer(req: Request, res: Response) {
     const tokenData: TokenData = res.locals.userDataFromToken;
-    const transferData: TransferData = req.body;
+    const transferData = req.body;
 
     await transactionService.cashTransfer(tokenData, transferData);
 

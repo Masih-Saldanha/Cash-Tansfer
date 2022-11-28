@@ -12,6 +12,8 @@ async function checkBalance(tokenData: TokenData) {
 };
 
 async function cashTransfer(creditedAccount: TokenData, transferData: TransferData) {
+    transferData.amount = Number(transferData.amount);
+    
     const { balance } = await transactionRepository.checkBalance(creditedAccount.accountId);
     creditedAccount.balance = balance;
     throwError(transferData.amount > balance, "Not Acceptable", `The amount you are trying to send (${transferData.amount}) is greater than your actual balance (${balance}), try a valid value`);

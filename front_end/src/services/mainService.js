@@ -8,7 +8,7 @@ function getBalance(config) {
 };
 
 function transferCash(transferData, config) {
-    return axios.post(`${site}/transaction/balance`, transferData, config);
+    return axios.post(`${site}/transaction/transfer`, transferData, config);
 };
 
 function getHistory(config, onlyCredited, onlyDebited, dateOrdered) {
