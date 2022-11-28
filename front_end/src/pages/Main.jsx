@@ -129,7 +129,7 @@ export default function Main() {
     <>
       <TopBar>
         <BalanceText>Balance: R$ {(balance / 100).toFixed(2)}</BalanceText>
-        {tokenData.username ? (
+        {tokenData ? (
           <WelcomeText>
             Welcome {tokenData.username}
             <LogoutButton onClick={handleSignout}>Logout</LogoutButton>
