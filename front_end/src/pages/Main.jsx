@@ -129,10 +129,14 @@ export default function Main() {
     <>
       <TopBar>
         <BalanceText>Balance: R$ {(balance / 100).toFixed(2)}</BalanceText>
-        <WelcomeText>
-          Welcome {tokenData.username}
-          <LogoutButton onClick={handleSignout}>Logout</LogoutButton>
-        </WelcomeText>
+        {tokenData.username ? (
+          <WelcomeText>
+            Welcome {tokenData.username}
+            <LogoutButton onClick={handleSignout}>Logout</LogoutButton>
+          </WelcomeText>
+        ) : (
+          <></>
+        )}
         <HistoryDiv>
           <button
             onClick={() => {
