@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import styled from "styled-components";
+import CurrencyInput from "react-currency-input-field";
 
 import authHook from "../hooks/authHook";
 import mainHook from "../hooks/mainHook";
@@ -18,7 +19,7 @@ export default function Main() {
 
   const [transferData, setTransferData] = useState({
     username: "",
-    amount: 0,
+    amount: "0.01",
   });
   const [showHistory, setShowHistory] = useState(false);
   const [onlyCredited, setOnlyCredited] = useState("");
@@ -36,10 +37,6 @@ export default function Main() {
     updateHistory();
   }, []);
 
-  // useEffect(() => {
-  //   updateBalance();
-  // }, [balance]);
-
   useEffect(() => {
     updateHistory();
   }, [onlyCredited, onlyDebited, dateOrdered]);
@@ -54,7 +51,6 @@ export default function Main() {
     mainService
       .getBalance(config)
       .then((response) => {
-        console.log(response.data.balance);
         setBalance(response.data.balance);
       })
       .catch((e) => {
@@ -67,11 +63,9 @@ export default function Main() {
     mainService
       .getHistory(config, onlyCredited, onlyDebited, dateOrdered)
       .then((response) => {
-        console.log(response.data);
         setHistory(response.data);
       })
       .catch((e) => {
-        console.log(e);
         alert("Could not found you're History");
       });
   }
@@ -95,7 +89,7 @@ export default function Main() {
       alert("Short username, it needs to have at least 3 characters!");
       return;
     }
-    if (transferData.amount < 1) {
+    if (transferData.amount <= 0) {
       alert("You are triyng to transfer an invalid value, try a valid amount!");
       return;
     }
@@ -108,7 +102,9 @@ export default function Main() {
 
     const dataToSend = { ...transferData };
 
-    console.log(dataToSend, config)
+    dataToSend.amount = dataToSend.amount.replace(",", ".");
+    dataToSend.amount = parseFloat(dataToSend.amount) * 100;
+    dataToSend.amount = String(dataToSend.amount);
 
     mainService
       .transferCash(dataToSend, config)
@@ -119,7 +115,6 @@ export default function Main() {
         updateHistory();
       })
       .catch((e) => {
-        console.log(e);
         alert("Could not transfer your cash");
         setLoading(false);
       });
@@ -184,7 +179,40 @@ export default function Main() {
         </HistoryDiv>
       </TopBar>
       {!showHistory ? (
-        <></>
+        <FormArea>
+          <h1>Transfer Cash Área</h1>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Username to send the cash:{" "}
+              <input
+                type="text"
+                placeholder="At least 3 characters"
+                value={transferData.username}
+                onChange={(e) => handleInputs(e, "username")}
+                required
+                disabled={loading}
+              ></input>
+            </label>
+            <label>
+              Amount to be sent:{" "}
+              <CurrencyInput
+                id="Cash"
+                name="Cash"
+                placeholder="At least 1 cent"
+                defaultValue={transferData.amount}
+                decimalsLimit={2}
+                onValueChange={(value, name) => {
+                  setTransferData({ ...transferData, amount: value });
+                }}
+                prefix={"R$ "}
+                fixedDecimalLength={2}
+                required
+                disabled={loading}
+              />
+            </label>
+            <button disabled={loading}>Send</button>
+          </form>
+        </FormArea>
       ) : (
         <HistoryTable>
           {history.length === 0 ? (
@@ -205,7 +233,8 @@ export default function Main() {
                     tokenData.username
                       ? "You"
                       : transaction.creditedAccounts.users.username}{" "}
-                    sent R$ {(transaction.value / 100).toFixed(2)} to{" "}
+                    sent R${" "}
+                    {(transaction.value / 100).toFixed(2).replace(".", ",")} to{" "}
                     {transaction.debitedAccounts.users.username ===
                     tokenData.username
                       ? "You"
@@ -218,34 +247,6 @@ export default function Main() {
           )}
         </HistoryTable>
       )}
-      <FormArea>
-        <h1>Transfer Cash Área</h1>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Username to send the cash:{" "}
-            <input
-              type="text"
-              placeholder="At least 3 characters"
-              value={transferData.username}
-              onChange={(e) => handleInputs(e, "username")}
-              required
-              disabled={loading}
-            ></input>
-          </label>
-          <label>
-            Amount to be sent:{" "}
-            <input
-              type="number"
-              placeholder="At least 1"
-              value={transferData.amount}
-              onChange={(e) => handleInputs(e, "amount")}
-              required
-              disabled={loading}
-            ></input>
-          </label>
-          <button disabled={loading}>Send</button>
-        </form>
-      </FormArea>
     </>
   );
 }
@@ -316,7 +317,6 @@ const FormArea = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
   }
   button {
     font-size: 14px;
@@ -362,7 +362,6 @@ const LogoutButton = styled.button`
 `;
 
 const HistoryTable = styled.aside`
-  position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: center;

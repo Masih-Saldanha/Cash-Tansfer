@@ -33,22 +33,17 @@ export default function Signin() {
 
     const metaSignInData = { ...signInData };
 
-    console.log(metaSignInData);
-
     authService
       .signIn(metaSignInData)
       .then((response) => {
         setLoading(false);
-        console.log(response.data);
         signIn(response.data);
         navigate("/main/");
       })
       .catch((e) => {
         alert("Could not login into your account");
         alert(e);
-        console.log(e);
         setLoading(false);
-        // alert(e.response.data.error || e.response.data);
       });
   }
 
@@ -59,7 +54,7 @@ export default function Signin() {
         <p>Sign In Screen</p>
       </Title>
       <form onSubmit={handleSubmit}>
-      <label>
+        <label>
           User Name:
           <input
             type="text"
@@ -124,7 +119,7 @@ const Container = styled.section`
     color: #9f9f9f;
     padding-left: 10px;
     ::placeholder {
-        font-size: 14px;
+      font-size: 14px;
     }
     margin-top: 13px;
     margin-left: 13px;
